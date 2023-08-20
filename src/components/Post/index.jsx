@@ -16,7 +16,7 @@ export const Post = ({
   createdAt,
   imageUrl,
   user,
-  viewsCount,
+  viewCount,
   commentsCount,
   tags,
   children,
@@ -68,7 +68,7 @@ export const Post = ({
           <ul className={styles.postDetails}>
             <li>
               <EyeIcon />
-              <span>{viewsCount}</span>
+              <span>{viewCount}</span>
             </li>
             <li>
               <CommentIcon />
