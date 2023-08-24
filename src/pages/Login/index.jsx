@@ -10,12 +10,12 @@ import { useForm } from "react-hook-form";
 
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData } from "../../redux/slices/auth";
+import { fetchUserData, selectIsAuth } from "../../redux/slices/auth";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 export const Login = () => {
-
+  const isAuth = useSelector(selectIsAuth)
   const dispatch = useDispatch()
 
   const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm({
@@ -26,12 +26,21 @@ export const Login = () => {
     mode: 'onChange'
   });
 
-  const onSubmit = (values) => {
-    debugger
-    dispatch(fetchUserData(values))
-    debugger
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchUserData(values));
+    if (!data.payload) {
+      alert('Не удалось авторизоваться!')
+    }
+    if ('token' in data.payload) {
+      window.localStorage.setItem('token', data.payload.token)
+    } 
   }
 
+  console.log('is Auth', isAuth)
+
+  if (isAuth) {
+    return <Navigate to={'/'}/>
+  }
 
   return (
     <Paper classes={{ root: styles.root }}>
