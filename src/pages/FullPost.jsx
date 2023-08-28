@@ -6,6 +6,9 @@ import { CommentsBlock } from "../components/CommentsBlock";
 import { useParams } from "react-router-dom";
 import instance from "../axios";
 
+import ReactMarkdown from 'react-markdown'
+
+
 export const FullPost = () => {
   debugger
   const [data, setData] = useState();
@@ -36,7 +39,7 @@ export const FullPost = () => {
       <Post
         _id={data._id}
         title={data.title}
-        imageUrl={data.imageUrl}
+        imageUrl={`http://localhost:3001/${data.imageUrl}`}
         user={data.user}
         createdAt={data.createdAt}
         viewCount={data.viewCount}
@@ -44,9 +47,7 @@ export const FullPost = () => {
         tags={data.tags}
         isFullPost
       >
-        <p>
-          {data.text}
-        </p>
+        <ReactMarkdown children={data.text} />
       </Post>
       <CommentsBlock
         items={[
